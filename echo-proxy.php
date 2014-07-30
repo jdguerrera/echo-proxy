@@ -33,16 +33,16 @@ class AuthInfo {
 class Request {
 	function Request($TotalWeight, $Items, $Accessorials, $Origin, $Destination, 
 			$PickupDate, $ShipmentType, $PalletQty, $ReturnMultipleCarriers, $SaveQuote) {
-		$this->TotalWeight = $TotalWeight;
-		$this->Items = $Items;
-		$this->Accessorials = $Accessorials;
-		$this->Origin = $Origin;
-		$this->Destination = $Destination;
-		$this->PickupDate = $PickupDate;
-		$this->ShipmentType = $ShipmentType;
-		$this->PalletQty = $PalletQty;
-		$this->ReturnMultipleCarriers = $ReturnMultipleCarriers;
-		$this->SaveQuote = $SaveQuote;
+		if (!is_null($TotalWeight)) { $this->TotalWeight = $TotalWeight; }
+		if (!is_null($Items)) { $this->Items = $Items; }
+		if (!is_null($Accessorials)) { $this->Accessorials = $Accessorials; }
+		if (!is_null($Origin)) { $this->Origin = $Origin; }
+		if (!is_null($Destination)) { $this->Destination = $Destination; }
+		if (!is_null($PickupDate)) { $this->PickupDate = $PickupDate; }
+		if (!is_null($ShipmentType)) { $this->ShipmentType = $ShipmentType; }
+		if (!is_null($PalletQty)) { $this->PalletQty = $PalletQty; }
+		if (!is_null($ReturnMultipleCarriers)) { $this->ReturnMultipleCarriers = $ReturnMultipleCarriers; }
+		if (!is_null($SaveQuote)) { $this->SaveQuote = $SaveQuote; }
 	} 
 
 }
@@ -58,11 +58,11 @@ class Request {
  */
 class Accessorial {
 	function Accessorial($AccessorialId, $Charge, $PickDel, $RateType, $Description) {
-		$this->AccessorialId = $AccessorialId;
-		$this->Charge = $Charge;
-		$this->PickDel = $PickDel;
-		$this->RateType = $RateType;
-		$this->Description = $Description;
+		if (!is_null($AccessorialId)) { $this->AccessorialId = $AccessorialId; }
+		if (!is_null($Charge)) { $this->Charge = $Charge; }
+		if (!is_null($PickDel)) { $this->PickDel = $PickDel; }
+		if (!is_null($RateType)) { $this->RateType = $RateType; }
+		if (!is_null($Description)) { $this->Description = $Description; }
 	}
 }
 
@@ -80,13 +80,13 @@ class Accessorial {
  */
 class Warehouse {
 	function Warehouse($Name, $Address1, $Address2, $City, $State, $Zip, $Id) {
-		$this->Name = $Name;
-		$this->Address1 = $Address1;
-		$this->Address2 = $Address2;
-		$this->City = $City;
-		$this->State = $State;
-		$this->Zip = $Zip;
-		$this->Id = $Id;
+		if (!is_null($Name)) { $this->Name = $Name; }
+		if (!is_null($Address1)) { $this->Address1 = $Address1; }
+		if (!is_null($Address2)) { $this->Address2 = $Address2; }
+		if (!is_null($City)) { $this->City = $City; }
+		if (!is_null($State)) { $this->State = $State; }
+		if (!is_null($Zip)) { $this->Zip = $Zip; }
+		if (!is_null($Id)) { $this->Id = $Id; }
 	}
 }
 
@@ -101,10 +101,10 @@ class Warehouse {
  */
 class FAK {
   	function FAK($Class, $Weight, $OriginId, $DestinationId) {
-  		$this->Class = $Class;
-		$this->Weight = $Weight;
-		$this->OriginId = $OriginId;
-		$this->DestinationId = $DestinationId;
+  		if (!is_null($Class)) { $this->Class = $Class; }
+		if (!is_null($Weight)) { $this->Weight = $Weight; }
+		if (!is_null($OriginId)) { $this->OriginId = $OriginId; }
+		if (!is_null($DestinationId)) { $this->DestinationId = $DestinationId; }
 	}
 }
 
@@ -128,19 +128,19 @@ $accessorial1 = new Accessorial(12, 0, null, null, null);
 $accessorial2 = new Accessorial(22, 0, null, null, null);
 $origin = new Warehouse(null, null, null, null, null, "91101", null);
 $destination = new Warehouse(null, null, null, null, null, "60425", null);
+$shipDate = new DateTime("2014-08-11");
 
 $request = new Request(1000, array($item), array($accessorial1, $accessorial2), $origin, $destination, 
-			new DateTime("2014-08-11"), "Third Party", 0, false, false);
+			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
 
 
 $echoRateRequest = new EchoRateRequest($authInfo, array($request));
 
-$client = new SoapClient("https://services.echo.com/Quote.asmx?wsdl");
+$client = new SoapClient("https://services.echo.com/Quote.asmx?wsdl", array('trace' => 1));
 
 //var_dump($client->__getFunctions());
 //var_dump($client->__getTypes());
-
-var_dump($echoRateRequest);
+//var_dump($echoRateRequest);
 
 $params = array(
 	"echoRateRequest" => $echoRateRequest,
@@ -148,4 +148,9 @@ $params = array(
 
 $response = $client->GetQuote($params);
 
+echo "====== REQUEST HEADERS =====" . PHP_EOL;
+var_dump($client->__getLastRequestHeaders());
+echo "========= REQUEST ==========" . PHP_EOL;
+var_dump($client->__getLastRequest());
+echo "========= RESPONSE =========" . PHP_EOL;
 var_dump($response);
