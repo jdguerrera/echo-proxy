@@ -148,9 +148,11 @@ $params = array(
 
 $response = $client->GetQuote($params);
 
-echo "====== REQUEST HEADERS =====" . PHP_EOL;
-var_dump($client->__getLastRequestHeaders());
-echo "========= REQUEST ==========" . PHP_EOL;
-var_dump($client->__getLastRequest());
-echo "========= RESPONSE =========" . PHP_EOL;
-var_dump($response);
+//echo "====== REQUEST HEADERS =====" . PHP_EOL;
+//var_dump($client->__getLastRequestHeaders());
+//echo "========= REQUEST ==========" . PHP_EOL;
+//var_dump($client->__getLastRequest());
+//echo "========= RESPONSE =========" . PHP_EOL;
+//var_dump($response);
+
+print json_encode($response, JSON_PRETTY_PRINT);
