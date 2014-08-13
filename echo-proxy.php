@@ -2,10 +2,10 @@
 
 date_default_timezone_set('America/New_York');
 
-/** 
+/**
  * This object stores the authentcation credientials supplied by echo
  *
- * @property string $UserId 
+ * @property string $UserId
  * @property string $Password
  */
 class AuthInfo {
@@ -16,7 +16,7 @@ class AuthInfo {
 }
 
 
-/** 
+/**
  * This object stores the request
  *
  * @property double $TotalWeight I'm not sure what this is
@@ -27,11 +27,11 @@ class AuthInfo {
  * @property datetime $PickupDate I'm not sure what this is
  * @property string $ShipmentType I'm not sure what this is
  * @property int $PalletQty I'm not sure what this is
- * @property boolean $ReturnMultipleCarriers 
+ * @property boolean $ReturnMultipleCarriers
  * @property boolean $SaveQuote
  */
 class Request {
-	function Request($TotalWeight, $Items, $Accessorials, $Origin, $Destination, 
+	function Request($TotalWeight, $Items, $Accessorials, $Origin, $Destination,
 			$PickupDate, $ShipmentType, $PalletQty, $ReturnMultipleCarriers, $SaveQuote) {
 		if (!is_null($TotalWeight)) { $this->TotalWeight = $TotalWeight; }
 		if (!is_null($Items)) { $this->Items = $Items; }
@@ -43,11 +43,11 @@ class Request {
 		if (!is_null($PalletQty)) { $this->PalletQty = $PalletQty; }
 		if (!is_null($ReturnMultipleCarriers)) { $this->ReturnMultipleCarriers = $ReturnMultipleCarriers; }
 		if (!is_null($SaveQuote)) { $this->SaveQuote = $SaveQuote; }
-	} 
+	}
 
 }
 
-/** 
+/**
  * This object does something I'm not sure what
  *
  * @property int $AccessorialId
@@ -67,7 +67,7 @@ class Accessorial {
 }
 
 
-/** 
+/**
  * This object does something I'm not sure what
  *
  * @property string $Name I'm not sure what this is
@@ -91,7 +91,7 @@ class Warehouse {
 }
 
 
-/** 
+/**
  * This object stores the object to ship
  *
  * @property double $Class I'm not sure what this is
@@ -109,7 +109,7 @@ class FAK {
 }
 
 
-/** 
+/**
  * This object is sent to GetQuote method
  *
  * @property AuthInfo $AuthInfo I
@@ -118,7 +118,7 @@ class FAK {
 class EchoRateRequest {
 	function EchoRateRequest($AuthInfo, $Requests) {
 		$this->AuthInfo = $AuthInfo;
-		$this->Requests = $Requests; 
+		$this->Requests = $Requests;
 	}
 }
 
@@ -130,13 +130,13 @@ $origin = new Warehouse(null, null, null, null, null, "91101", null);
 $destination = new Warehouse(null, null, null, null, null, "60425", null);
 $shipDate = new DateTime("2014-08-11");
 
-$request = new Request(1000, array($item), array($accessorial1, $accessorial2), $origin, $destination, 
+$request = new Request(1000, array($item), array($accessorial1, $accessorial2), $origin, $destination,
 			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
 
 
 $echoRateRequest = new EchoRateRequest($authInfo, array($request));
 
-$client = new SoapClient("https://services.echo.com/Quote.asmx?wsdl", array('trace' => 1));
+$client = new SoapClient("http://services.echo.com/Quote.asmx?wsdl", array('trace' => 1));
 
 //var_dump($client->__getFunctions());
 //var_dump($client->__getTypes());
@@ -155,4 +155,5 @@ $response = $client->GetQuote($params);
 //echo "========= RESPONSE =========" . PHP_EOL;
 //var_dump($response);
 
-print json_encode($response, JSON_PRETTY_PRINT);
+
+print $_GET['callback'] . '(' . json_encode($response) . ')';
