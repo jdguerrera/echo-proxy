@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>JQuery JSONP</title>
+    <title>Floors for less</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
 
-        $("#useJSONP").click(function(){
+        $("#getQuote").click(function(){
             $.ajax({
                 url: 'http://ec2-54-200-159-33.us-west-2.compute.amazonaws.com/echo-proxy.php',
-                //data: {name: 'Chad'},
-                data: {},
+				data: {},
                 dataType: 'jsonp',
                 jsonp: 'callback',
-                //jsonpCallback: 'jsonpCallback',
+                jsonpCallback: 'jsonpCallback',
                 success: function(){
-                    alert("success");
+                    //console.log("successfully got information from the proxy");
                 }
             });
         });
@@ -23,14 +22,14 @@
     });
 
     function jsonpCallback(data){
-        //$('#jsonpResult').text(data);
-        alert(data);
+        $('#shippingQuote').text(data.GetQuoteResult.RateQuote.RateDetails.RateDetail.Charges.TotalCharge);
+		//console.log(data.GetQuoteResult.RateQuote.RateDetails.RateDetail.Charges.TotalCharge);
     }
     </script>
   </head>
 
   <body>
-    <input type="button" id="useJSONP" value="Use JSONP"></input><br /><br />
-    <span id="jsonpResult"></span>
+    <input type="button" id="getQuote" value="Get Shipping Quote"></input><br /><br />
+    <span id="shippingQuote"></span>
   </body>
 </html>
