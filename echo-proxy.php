@@ -41,7 +41,8 @@ class Request {
 		if (!is_null($PickupDate)) { $this->PickupDate = $PickupDate; }
 		if (!is_null($ShipmentType)) { $this->ShipmentType = $ShipmentType; }
 		if (!is_null($PalletQty)) { $this->PalletQty = $PalletQty; }
-		if (!is_null($ReturnMultipleCarriers)) { $this->ReturnMultipleCarriers = $ReturnMultipleCarriers; }
+		if (!is_null($ReturnMultipleCarriers)) { $this->ReturnMultipleCarriers = $ReturnMultipleCarriers;
+ }
 		if (!is_null($SaveQuote)) { $this->SaveQuote = $SaveQuote; }
 	}
 
@@ -123,14 +124,14 @@ class EchoRateRequest {
 }
 
 $authInfo = new AuthInfo("ER107135", "Echo7135");
-$item = new FAK(70, 1000, null, null);
-$accessorial1 = new Accessorial(12, 0, null, null, null);
-$accessorial2 = new Accessorial(22, 0, null, null, null);
-$origin = new Warehouse(null, null, null, null, null, "91101", null);
-$destination = new Warehouse(null, null, null, null, null, "60425", null);
-$shipDate = new DateTime("2014-08-11");
+$item = new FAK(55, $_GET['weight'], null, null);
+//$accessorial1 = new Accessorial(12, 0, null, null, null);
+//$accessorial2 = new Accessorial(22, 0, null, null, null);
+$origin = new Warehouse(null, null, null, null, null, $_GET['origin'], null);
+$destination = new Warehouse(null, null, null, null, null, $_GET['destination'], null);
+$shipDate = new DateTime($_GET['shipdate']);
 
-$request = new Request(1000, array($item), array($accessorial1, $accessorial2), $origin, $destination,
+$request = new Request($_GET['weight'], array($item), null, $origin, $destination,
 			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
 
 
