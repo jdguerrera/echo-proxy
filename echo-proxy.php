@@ -131,9 +131,17 @@ $origin = new Warehouse(null, null, null, null, null, $_GET['origin'], null);
 $destination = new Warehouse(null, null, null, null, null, $_GET['destination'], null);
 $shipDate = new DateTime($_GET['shipdate']);
 
-$request = new Request($_GET['weight'], array($item), null, $origin, $destination,
-			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
+if ($_GET['residential'] == 1) {
+	$accessorial1 = new Accessorial(21, 0, null, null, null);
+	$accessorial2 = new Accessorial(62, 0, null, null, null);
 
+	$request = new Request($_GET['weight'], array($item), array($accessorial1, $accessorial2), $origin, $destination,
+			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
+}
+else {
+	$request = new Request($_GET['weight'], array($item), null, $origin, $destination,
+			$shipDate->format('Y-m-d'), "Third Party", 0, false, false);
+}
 
 $echoRateRequest = new EchoRateRequest($authInfo, array($request));
 
