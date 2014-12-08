@@ -55,6 +55,7 @@ $(function() {
 				}			
 			}
 		});
+		$('.add_to_cart_disclaimer').text("Add your order to the cart for your discounted shipping rate.");
 	}
 
 
@@ -89,12 +90,11 @@ $(function() {
 			'         <td width=122 align=left valign=top><input type=checkbox name="residential" value="1" /></td>' +
 			'      </tr>' +
 			'      <tr>' +
-			'        <td width=233 align=left valign=top><span style="color:#890016;">Total Amount:</span></td>' +
-			'        <td width=122 align=left valign=top class="result_csqft" ></td>' +
-			'      </tr>' +
-			'      <tr>' +
 			'        <td width=233 align=left valign=top>Shipping cost:</td>' +
 			'        <td width=122 align=left valign=top class="csqft_pricettt" ><span class="shipping_cost"></span></td>' +
+			'      </tr>' +
+			'      <tr>' +
+			'         <td colspan=2 align=center valign=top><span style="font-weight:bold;" class="add_to_cart_disclaimer"></span></td>' +
 			'      </tr>' +
 			'    </table>' +
 			'    <input type=text name=sf value="" style="display:none;" />' +
